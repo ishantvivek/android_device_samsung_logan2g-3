@@ -1,0 +1,13 @@
+#Ignore these files ffs
+.gitignore~
+*.sh~
+*.mk~
+*.fstab~
+*.rc~
+*.cfg~
+*.kl~
+*.cfg~
+*.xml~
+*.c~
+*.prop~
+*.txt~

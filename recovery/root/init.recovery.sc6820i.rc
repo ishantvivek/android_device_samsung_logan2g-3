@@ -1,0 +1,35 @@
+on init
+
+# External storage directories
+    export EXTERNAL_STORAGE /storage/emulated/legacy
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
+    export SECONDARY_STORAGE /storage/sdcard1
+
+    mkdir sdcard1
+
+# See storage config details at http://source.android.com/tech/storage/
+    mkdir /storage/sdcard1 0000 system system
+    mkdir /storage/usbdisk0 0000 system system
+
+    symlink /storage/emulated/legacy /sdcard
+    symlink /storage/emulated/legacy /mnt/sdcard
+    symlink /storage/emulated/legacy /storage/sdcard0
+    symlink /storage/sdcard1 /extSdCard
+    symlink /storage/sdcard1 /mnt/extSdCard
+    symlink /storage/sdcard1 /external_sd
+
+on fs
+
+      write /sys/class/android_usb/android0/functions adb
+
+on boot
+
+# virtual internal sdcard daemon running as media_rw (1023)
+service sdcard0 /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated 
+		class late_start
+
+# virtual external sdcard daemon running as media_rw (1023)
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
+      class late_start
+      disabled
