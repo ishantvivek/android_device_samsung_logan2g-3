@@ -1,3 +1,26 @@
 #
 # system.prop for logan2g
 #
+
+ro.sf.lcd_density=240
+ro.sf.lcd_width=52
+ro.sf.lcd_height=87
+ro.lcd_brightness=160
+
+debug.hwui.render_dirty_regions=false
+
+# Delay for ConnectivityChange broadcast (ms)
+conn.connectivity_change_delay=0
+
+# MULTISIM
+ro.multisim.simslotcount=1
+
+# NK console device
+persist.ttydev=ttyVUART0
+
+persist.sys.dataprefer.simid=0
+ro.secure=0
+ro.adb.secure=0
+service.adb.root=1
+ro.allow.mock.location=1
+ro.debuggable=1

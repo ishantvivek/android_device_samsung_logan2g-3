@@ -1,26 +1,40 @@
-USE_CAMERA_STUB := true
+# Assert
+TARGET_OTA_ASSERT_DEVICE := logan2g
 
+# Architecture
 TARGET_ARCH := arm
-TARGET_NO_BOOTLOADER := true
-TARGET_BOARD_PLATFORM := sc6820i
+TARGET_ARCH_VARIANT := armv7-a
+TARGET_ARCH_VARIANT_CPU := cortex-a5
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a
-TARGET_CPU_VARIANT := cortex-a5
-TARGET_CPU_SMP := true
+TARGET_CPU_VARIANT := generic
+ARCH_ARM_HAVE_ARMV7A := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_HAVE_VFP := true
+ARCH_ARM_HAVE_VFP_D32 := false
 
+# For low memory targets only (~512MB RAM & hdpi resolution)
+TARGET_ARCH_LOWMEM := true
+
+# Board
 TARGET_BOOTLOADER_BOARD_NAME := logan
+TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
+
+# Platform
+TARGET_BOARD_PLATFORM := sc6820i
+COMMON_GLOBAL_CFLAGS += -DSPRD_HARDWARE
+TARGET_BOARD_PLATFORM_GPU := mali-400 MP
 
 # Kernel
 BOARD_KERNEL_CMDLINE := console=ttyS1,115200n8
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
-TARGET_KERNEL_SOURCE := kernel/samsung/logan2g
-TARGET_KERNEL_CONFIG := cyanogenmod-logan2g_defconfig
-BOARD_KERNEL_IMAGE_NAME := Image
+TARGET_PREBUILT_KERNEL := device/samsung/logan2g/kernel
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.6
+# BOARD_USES_UNCOMPRESSED_BOOT := true
 
-# fix this up by examining /proc/mtd on a running device
+# Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 10485760
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
@@ -33,18 +47,40 @@ TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_VENDOR_USE_AKMD := true
 
-
 # Recovery
-TARGET_RECOVERY_FSTAB := device/samsung/logan2g/recovery/recovery.fstab
-TARGET_RECOVERY_INITRC := device/samsung/logan2g/recovery/init.sc6820i.rc
+TARGET_RECOVERY_INITRC := device/samsung/logan2g/recovery/recovery.rc
+TARGET_RECOVERY_FSTAB := device/samsung/logan2g/recovery.fstab
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/logan2g/recovery/recovery_keys.c
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+BOARD_HDPI_RECOVERY := true
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_SUPPRESS_EMMC_WIPE := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/dwc_otg.0/gadget/lun0/file"
 
+# Bootanimation
+DEVICE_RESOLUTION := 480x800
+TARGET_SCREEN_WIDTH := 480
+TARGET_SCREEN_HEIGHT := 800
+TARGET_BOOTANIMATION_PRELOAD := true
+TARGET_BOOTANIMATION_TEXTURE_CACHE := true
+
+# Font Footprint
+SMALLER_FONT_FOOTPRINT := true
+MINIMAL_FONT_FOOTPRINT := true
+
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
+
+# Enable dex-preoptimization to speed up the first boot sequence of an SDK AVD.
+# Note that this operation only works on Linux for now.
+WITH_DEXPREOPT := true
+
+# SELinux
+BOARD_SEPOLICY_DIRS += \
+    device/samsung/logan2g/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    file_contexts
