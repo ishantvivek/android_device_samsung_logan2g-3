@@ -1,32 +1,39 @@
 import init.sc6820i.usb.rc
 import init.bt.rc
+
+on early-init
+    loglevel 7
+    mkdir /efs 0771 radio system
+
 on init
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage 0550 system sdcard_r
     mkdir /storage/emulated 0555 root root
-    # External storage directories
-    mkdir /storage/sdcard1 0000 system system
-    mkdir /storage/usbdisk0 0000 system system
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
     export EMULATED_STORAGE_TARGET /storage/emulated
-    export SECONDARY_STORAGE /storage/sdcard1 
-    # For backwards compatibility
+    # Support legacy paths
     symlink /storage/emulated/legacy /sdcard
     symlink /storage/emulated/legacy /mnt/sdcard
     symlink /storage/emulated/legacy /storage/sdcard0
-    symlink /storage/sdcard1 /extSdCard
-    symlink /storage/sdcard1 /mnt/extSdCard
+    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+
+    mkdir /storage/sdcard1 0775 system system
+    export SECONDARY_STORAGE /storage/sdcard1
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /storage/sdcard1 0700 root root
+
+    # For backwards compatibility
     symlink /storage/sdcard1 /external_sd
-    # sd-ext
-    mkdir /sd-ext 0771 system system
-    export SD_EXT_DIRECTORY /sd-ext
-# Required entries
-    mkdir /efs 0771 radio system
+    symlink /storage/sdcard1 /mnt/extSdCard
+
+# To store widevine keybox
+    symlink /data/app /factory
+
     symlink /efs /factory
+
     symlink /dev/block/mmcblk0p4 /dev/block/param
-    write /proc/sys/kernel/panic 2
-    chown media /sys/dcdc_efficiency/dcdc_efficiency
+
 on fs
     mkdir /productinfo 0774 system system
     mount_all /fstab.sc6820i
@@ -115,7 +122,7 @@ on boot
 # AND3_SPRD
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
 #   simslot 1
-#   setprop ro.multisim.simslotcount 1  
+#   setprop ro.multisim.simslotcount 1
 #   simslot 2
     setprop ro.multisim.simslotcount 2
 #   simslot 3

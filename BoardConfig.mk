@@ -77,6 +77,7 @@ BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_SUPPRESS_EMMC_WIPE := true
 BOARD_UMS_LUNFILE := "/sys/class/android_usb/android0/f_mass_storage/lun/file"
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/dwc_otg.0/gadget/lun0/file"
+HAVE_SELINUX := true
 
 # TWRP Specific
 # RECOVERY_GRAPHICS_USE_LINELENGTH := true
@@ -162,3 +163,10 @@ BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charg
 # Enable dex-preoptimization to speed up the first boot sequence of an SDK AVD.
 # Note that this operation only works on Linux for now.
 WITH_DEXPREOPT := true
+
+# SELinux
+BOARD_SEPOLICY_DIRS += \
+    device/samsung/logan2g/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    file_contexts

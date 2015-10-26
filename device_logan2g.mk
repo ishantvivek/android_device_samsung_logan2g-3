@@ -43,6 +43,7 @@ $(shell ln -sf -t $(LOCAL_PATH)/../../../out/target/product/logan2g/recovery/roo
 # Init
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/fstab.sc6820i:root/fstab.sc6820i \
+		$(LOCAL_PATH)/rootdir/init.rc:root/init.rc \
     $(LOCAL_PATH)/rootdir/init.bt.rc:root/init.bt.rc \
     $(LOCAL_PATH)/rootdir/init.sc6820i.rc:root/init.sc6820i.rc \
     $(LOCAL_PATH)/rootdir/init.sc6820i.usb.rc:root/init.sc6820i.usb.rc \
