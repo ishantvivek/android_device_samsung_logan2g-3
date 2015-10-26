@@ -12,9 +12,6 @@ debug.hwui.render_dirty_regions=false
 # Delay for ConnectivityChange broadcast (ms)
 conn.connectivity_change_delay=0
 
-# MULTISIM
-ro.multisim.simslotcount=1
-
 # NK console device
 persist.ttydev=ttyVUART0
 

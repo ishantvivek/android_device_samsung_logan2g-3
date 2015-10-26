@@ -1,2 +1,7 @@
 on init
-    mkdir /efs
+    # ko files for exfat
+    insmod /lib/modules/exfat.ko
+
+on boot
+    # Device Encryption by Security R&D Group. 
+    setprop ro.crypto.keyfile.userdata /efs/metadata
